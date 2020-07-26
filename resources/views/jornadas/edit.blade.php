@@ -27,21 +27,21 @@
     <div class="box-body">
       <!-- Docente -->
       <div class="form-group">
-        {!! Form::label('docente_id', 'Docente', ['class' => 'col-sm-3 control-label']) !!}
+        {!! Form::label('docente_id', 'Docente *', ['class' => 'col-sm-3 control-label']) !!}
         <div class="col-sm-6">
           {!! Form::text('docente_id', $jornada->docente->user->nombre . ' ' . $jornada->docente->user->apellido, ['class' => 'form-control', 'disabled']) !!}
         </div>
       </div>
       <!-- Fecha -->
       <div class="form-group">
-        {!! Form::label('fecha', 'Fecha', ['class' => 'col-sm-3 control-label']) !!}
+        {!! Form::label('fecha', 'Fecha *', ['class' => 'col-sm-3 control-label']) !!}
         <div class="col-sm-6">
           {!! Form::text('fecha', \Carbon\Carbon::parse($jornada->fecha)->format('d/m/Y'), ['class' => 'form-control', 'disabled']) !!}
         </div>
       </div>
       <!-- Hora de entrada -->
       <div class="form-group{{ $errors->has('hora_entrada') ? ' has-error' : '' }} input-btn-alinear">
-        {!! Form::label('hora_entrada', 'Hora de entrada', ['class' => 'col-sm-3 control-label']) !!}
+        {!! Form::label('hora_entrada', 'Hora de entrada *', ['class' => 'col-sm-3 control-label']) !!}
         <div class="col-sm-6 input-group">
           {!! Form::text('hora_entrada', $jornada->hora_entrada, ['class' => 'form-control', 'placeholder' => 'hh:mm:ss', 'required', 'data-inputmask' => '"mask": "99:99:99"', 'data-mask']) !!}
           @if ($errors->has('hora_entrada'))

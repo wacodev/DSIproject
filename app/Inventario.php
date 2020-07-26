@@ -6,12 +6,25 @@ use Illuminate\Database\Eloquent\Model;
 
 class Inventario extends Model
 {
-    protected $fillable = [
-    	'fecha',
-      ];
+    /**
+     * Nombre de la tabla relacionada a este modelo.
+     *
+     * @var string
+     */
+    protected $table = 'inventarios';
 
     /**
-     * Obtiene los inventario.
+     * Atributos que son asignados en masa.
+     *
+     * @var array
+     */
+    protected $fillable = [
+    	'fecha',
+        'estado',
+    ];
+
+    /**
+     * Obtiene los recursos inventariados.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */

@@ -66,7 +66,7 @@
     @else
       <div class="text-center">
         <i class="fa fa-search fa-5x" aria-hidden="true"></i>
-        <h4>No se encontraron Valores</h4>
+        <h4>No se encontraron valores</h4>
       </div>
     @endif
   </div>

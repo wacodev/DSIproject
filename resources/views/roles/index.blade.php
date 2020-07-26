@@ -37,7 +37,6 @@
       <table class="table table-hover table-striped table-bordered table-quitar-margen">
         <thead>
           <tr>
-            <th>ID</th>
             <th>Código</th>
             <th>Nombre</th>
             <th>Opciones</th>
@@ -46,7 +45,6 @@
         <tbody>
           @foreach($roles as $rol)
           <tr>
-            <td>{{ $rol->id }}</td>
             <td>{{ $rol->codigo }}</td>
             <td>{{ $rol->nombre }}</td>
             <td>

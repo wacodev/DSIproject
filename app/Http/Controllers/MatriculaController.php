@@ -135,7 +135,7 @@ class MatriculaController extends Controller
             if ($validacion) {
                 flash('
                     <h4>Error de Matriculación</h4>
-                    <p>No se ha registrado la matrícula de <strong>' . $matricula->alumno->nombre . ' ' . $matricula->alumno->apellido . '</strong> porque ya tiene un registro de matriculación en el año <strong>' . $grado->anio->numero . '.</strong></p>
+                    <p>No se ha registrado la matrícula de <strong>' . $matricula->alumno->nombre . ' ' . $matricula->alumno->apellido . '</strong> porque ya tiene un registro de matriculación en el año <strong>' . $grado->anio->numero . '</strong>.</p>
                 ')->error()->important();
 
                 return back();
@@ -265,7 +265,6 @@ class MatriculaController extends Controller
                 <p>La matrícula de <strong>' . $matricula->alumno->nombre . ' ' . $matricula->alumno->apellido . '</strong> en el grado <strong>' . $matricula->grado->codigo . '</strong> no se puede eliminar porque ya tiene notas mayores a cero registradas.</p>
             ')->warning()->important();
         }
-
 
         return redirect()->route('matriculas.index');
     }

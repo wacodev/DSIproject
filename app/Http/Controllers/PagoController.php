@@ -75,7 +75,7 @@ class PagoController extends Controller
 
         if ($pago_validar != null) {
             flash('
-                <h4>Error en ingreso de datos</h4>
+                <h4>Error en Ingreso de Datos</h4>
                 <p>Ya existe un pago de alimentos para este año y mes.</p>
             ')->error()->important();
 
@@ -85,7 +85,7 @@ class PagoController extends Controller
         $pago->save();
 
         flash('
-            <h4>Registro de pago</h4>
+            <h4>Registro de Pago</h4>
             <p>El pago se ha registrado correctamente.</p>
         ')->success()->important();
 
@@ -121,7 +121,7 @@ class PagoController extends Controller
 
         if ($pago_validar != null) {
             flash('
-                <h4>Error en ingreso de datos</h4>
+                <h4>Error en Ingreso de Datos</h4>
                 <p>Ya existe un pago de alimentos realizado por este estudiante.</p>
             ')->error()->important();
 
@@ -131,7 +131,7 @@ class PagoController extends Controller
         $pago->alumnos()->attach($request->alumno_id, ['pago' => $request->pago]);
 
         flash('
-            <h4>Registro de pago</h4>
+            <h4>Registro de Pago</h4>
             <p>El pago se ha registrado correctamente.</p>
         ')->success()->important();
 
@@ -232,7 +232,7 @@ class PagoController extends Controller
 
         if ($pago_validar != null) {
             flash('
-                <h4>Error en ingreso de datos</h4>
+                <h4>Error en Ingreso de Datos</h4>
                 <p>Ya existe un pago de alimentos para este año y mes.</p>
             ')->error()->important();
 
@@ -276,7 +276,7 @@ class PagoController extends Controller
     }
 
     /**
-     * Da de baja al pago especificado de un alumno.
+     * Elimina el pago especificado de un alumno.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response

@@ -2,8 +2,9 @@
 
 namespace DSIproject\Http\Controllers;
 
-use Illuminate\Http\Request;
 use DSIproject\Recurso;
+use DSIproject\Http\Requests\RecursoRequest;
+use Illuminate\Http\Request;
 use Laracasts\Flash\Flash;
 
 class RecursoController extends Controller
@@ -43,7 +44,7 @@ class RecursoController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(RecursoRequest $request)
     {
         $recurso = new Recurso($request->all());
 
@@ -89,7 +90,7 @@ class RecursoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(RecursoRequest $request, $id)
     {
         $recurso = Recurso::find($id);
         

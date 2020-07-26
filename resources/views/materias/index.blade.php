@@ -37,7 +37,7 @@
       <table class="table table-hover table-striped table-bordered table-quitar-margen">
         <thead>
           <tr>
-            <th>Codigo</th>
+            <th>Código</th>
             <th>Nombre</th>
           </tr>
         </thead>

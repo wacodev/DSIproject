@@ -30,7 +30,7 @@
 
       <!-- Nombre -->
       <div class="form-group{{ $errors->has('nombre') ? ' has-error' : '' }}">
-        {!! Form::label('nombre', 'Nombre', ['class' => 'col-sm-3 control-label']) !!}
+        {!! Form::label('nombre', 'Nombre *', ['class' => 'col-sm-3 control-label']) !!}
         <div class="col-sm-6">
           {!! Form::text('nombre', $recurso->nombre, ['class' => 'form-control', 'placeholder' => 'Nombre del recurso', 'required']) !!}
             @if ($errors->has('nombre'))
@@ -41,9 +41,9 @@
 
       <!-- Valor -->
       <div class="form-group{{ $errors->has('descripcion') ? ' has-error' : '' }}">
-        {!! Form::label('descripcion', 'descripcion', ['class' => 'col-sm-3 control-label']) !!}
+        {!! Form::label('descripcion', 'Descripción', ['class' => 'col-sm-3 control-label']) !!}
         <div class="col-sm-6">
-          {!! Form::textArea('descripcion', $recurso->descripcion, ['class' => 'form-control', 'placeholder' => '', 'required']) !!}
+          {!! Form::textArea('descripcion', $recurso->descripcion, ['class' => 'form-control', 'placeholder' => 'Descripción del recurso']) !!}
             @if ($errors->has('descripcion'))
             <span class="help-block">{{ $errors->first('descripcion') }}</span>
             @endif

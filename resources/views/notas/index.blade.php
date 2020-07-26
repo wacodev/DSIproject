@@ -27,6 +27,7 @@
 
 <div class="row">
   <div class="col-sm-6">
+    @if (count($grados) > 0)
     <!-- Lista de grados donde se es orientador -->
     <div class="box box-primary">
       <div class="box-header with-border">
@@ -37,7 +38,6 @@
       </div>
       <!-- /.box-header -->
       <div class="box-body">
-        @if (count($grados) > 0)
         <ul class="products-list product-list-in-box">
           @foreach ($grados as $grado)
           <li class="item">
@@ -52,15 +52,20 @@
           <!-- /.item -->
           @endforeach
         </ul>
-        @endif
       </div>
       <!-- /.box-body -->
     </div>
     <!-- /.box -->
+    @else
+    <div class="text-center">
+      <i class="fa fa-search fa-5x" aria-hidden="true"></i>
+      <h4>No se encontraron grados o no es orientador de ningún grado.</h4>
+    </div>
+    @endif
   </div>
 
-  @if (count($materias) > 0)
   <div class="col-sm-6">  
+    @if (count($materias) > 0)
     <!-- Lista de grados -->
     @for ($i = 0; $i < count($materias); $i++)
     <div class="box box-primary collapsed-box">
@@ -84,8 +89,13 @@
     </div>
     <!-- /.box -->
     @endfor
+    @else
+    <div class="text-center">
+      <i class="fa fa-search fa-5x" aria-hidden="true"></i>
+      <h4>No se encontraron materias o no está encargado de ninguna materia.</h4>
+    </div>
+    @endif
   </div>
-  @endif
 </div>
 @endsection
 

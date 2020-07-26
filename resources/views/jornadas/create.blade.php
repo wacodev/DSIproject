@@ -2,6 +2,11 @@
 
 @section('titulo', 'CEAA | Jornada Laboral')
 
+@section('estilos')
+<!-- Select2 -->
+<link rel="stylesheet" href="{{ asset('css/select2.min.css') }}">
+@endsection
+
 @section('encabezado', 'Jornada Laboral')
 
 @section('subencabezado', 'Registro')
@@ -27,9 +32,9 @@
     <div class="box-body">
       <!-- Docente -->
       <div class="form-group{{ $errors->has('docente_id') ? ' has-error' : '' }}">
-        {!! Form::label('docente_id', 'Docente', ['class' => 'col-sm-3 control-label']) !!}
+        {!! Form::label('docente_id', 'Docente *', ['class' => 'col-sm-3 control-label']) !!}
         <div class="col-sm-6">
-          <select id="docente_id" name="docente_id" class="form-control" required>
+          <select id="docente_id" name="docente_id" class="form-control select2" style="width: 100%" required>
             <option selected="selected" value="">-- Seleccione al docente --</option>
             @foreach ($docentes as $docente)
             <option value="{{ $docente->id }}">{{ $docente->nombre }} {{ $docente->apellido }}</option>
@@ -42,7 +47,7 @@
       </div>
       <!-- Fecha -->
       <div class="form-group{{ $errors->has('fecha') ? ' has-error' : '' }} input-btn-alinear">
-        {!! Form::label('fecha', 'Fecha', ['class' => 'col-sm-3 control-label']) !!}
+        {!! Form::label('fecha', 'Fecha *', ['class' => 'col-sm-3 control-label']) !!}
         <div class="col-sm-6 input-group">
           {!! Form::text('fecha', old('fecha'), ['class' => 'form-control', 'placeholder' => 'dd/mm/yyyy', 'required', 'data-inputmask' => '"alias": "dd/mm/yyyy"', 'data-mask']) !!}
           @if ($errors->has('fecha'))
@@ -55,7 +60,7 @@
       </div>
       <!-- Hora de entrada -->
       <div class="form-group{{ $errors->has('hora_entrada') ? ' has-error' : '' }} input-btn-alinear">
-        {!! Form::label('hora_entrada', 'Hora de entrada', ['class' => 'col-sm-3 control-label']) !!}
+        {!! Form::label('hora_entrada', 'Hora de entrada *', ['class' => 'col-sm-3 control-label']) !!}
         <div class="col-sm-6 input-group">
           {!! Form::text('hora_entrada', old('hora_entrada'), ['class' => 'form-control', 'placeholder' => 'hh:mm:ss', 'required', 'data-inputmask' => '"mask": "99:99:99"', 'data-mask']) !!}
           @if ($errors->has('hora_entrada'))
@@ -127,5 +132,13 @@
     var btn_hora_salida = document.getElementById('btn_hora_salida');
     btn_hora_salida.addEventListener('click', horaSalidaActual);
   }())
+</script>
+<!-- Select2 -->
+<script src="{{ asset('js/select2.full.min.js') }}"></script>
+<script type="text/javascript">
+  $(function () {
+    //Initialize Select2 Elements
+    $('.select2').select2()
+  })
 </script>
 @endsection

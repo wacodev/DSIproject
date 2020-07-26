@@ -105,7 +105,7 @@ class GradoController extends Controller
 
         flash('
             <h4>Registro de Grado</h4>
-            <p>El Grado <strong>' . $grado->codigo . '</strong> se ha registrado correctamente.</p>
+            <p>El grado <strong>' . $grado->codigo . '</strong> se ha registrado correctamente.</p>
         ')->success()->important();
 
         if ($form_extra) {
@@ -179,8 +179,8 @@ class GradoController extends Controller
         }
 
         flash('
-            <h4>Edición de Docente</h4>
-            <p>El docente <strong>' . $grado->codigo . '</strong> se ha editado correctamente.</p>
+            <h4>Edición de Grado</h4>
+            <p>El grado <strong>' . $grado->codigo . '</strong> se ha editado correctamente.</p>
         ')->success()->important();
 
         return redirect()->route('grados.index');
@@ -194,7 +194,7 @@ class GradoController extends Controller
      */
     public function destroy($id)
     {
-         $grado = Grado::find($id);
+        $grado = Grado::find($id);
 
         if (!$grado || $grado->estado == 0) {
             abort(404);
@@ -206,7 +206,7 @@ class GradoController extends Controller
 
         flash('
             <h4>Baja de Grado</h4>
-            <p>El Grado<strong>' . $grado->codigo .  '</strong> se ha dado de baja correctamente.</p>
+            <p>El grado <strong>' . $grado->codigo .  '</strong> se ha dado de baja correctamente.</p>
         ')->error()->important();
 
         return redirect()->route('grados.index');

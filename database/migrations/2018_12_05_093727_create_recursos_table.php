@@ -16,7 +16,7 @@ class CreateRecursosTable extends Migration
         Schema::create('recursos', function (Blueprint $table) {
             $table->increments('id');
             $table->string('nombre', 100);
-            $table->string('descripcion', 400);
+            $table->string('descripcion', 400)->nullable();
             $table->timestamps();
         });
     }

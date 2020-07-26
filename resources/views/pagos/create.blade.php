@@ -2,6 +2,11 @@
 
 @section('titulo', 'CEAA | Pago de Alimentos')
 
+@section('estilos')
+<!-- Select2 -->
+<link rel="stylesheet" href="{{ asset('css/select2.min.css') }}">
+@endsection
+
 @section('encabezado', 'Pago de Alimentos')
 
 @section('subencabezado', 'Registro')
@@ -26,9 +31,9 @@
     <div class="box-body">
       <!-- Año -->
       <div class="form-group{{ $errors->has('anio_id') ? ' has-error' : '' }}">
-        {!! Form::label('anio_id', 'Año', ['class' => 'col-sm-3 control-label']) !!}
+        {!! Form::label('anio_id', 'Año *', ['class' => 'col-sm-3 control-label']) !!}
         <div class="col-sm-6">
-          {!! Form::select('anio_id', $anios, old('anio_id'), ['class' => 'form-control', 'placeholder' => '-- Seleccione un año --', 'required']) !!}
+          {!! Form::select('anio_id', $anios, old('anio_id'), ['class' => 'form-control select2', 'placeholder' => '-- Seleccione un año --', 'style' => 'width: 100%', 'required']) !!}
           @if ($errors->has('anio_id'))
           <span class="help-block">{{ $errors->first('anio_id') }}</span>
           @endif
@@ -36,7 +41,7 @@
       </div>
       <!-- Mes -->
       <div class="form-group{{ $errors->has('mes') ? ' has-error' : '' }}">
-        {!! Form::label('mes', 'Mes', ['class' => 'col-sm-3 control-label']) !!}
+        {!! Form::label('mes', 'Mes *', ['class' => 'col-sm-3 control-label']) !!}
         <div class="col-sm-6">
           {!! Form::select('mes', [
              '1' => 'Enero',
@@ -51,7 +56,7 @@
             '10' => 'Octubre',
             '11' => 'Noviembre',
             '12' => 'Diciembre',
-            ], old('mes'), ['class' => 'form-control', 'placeholder' => '-- Seleccione un mes --', 'required']) !!}
+            ], old('mes'), ['class' => 'form-control select2', 'placeholder' => '-- Seleccione un mes --', 'style' => 'width: 100%', 'required']) !!}
           @if ($errors->has('mes'))
           <span class="help-block">{{ $errors->first('mes') }}</span>
           @endif
@@ -71,4 +76,15 @@
   <!-- /.box-footer-->
 </div>
 <!-- /.box -->
+@endsection
+
+@section('scripts')
+<!-- Select2 -->
+<script src="{{ asset('js/select2.full.min.js') }}"></script>
+<script type="text/javascript">
+  $(function () {
+    //Initialize Select2 Elements
+    $('.select2').select2()
+  })
+</script>
 @endsection

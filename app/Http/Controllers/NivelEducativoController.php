@@ -78,7 +78,7 @@ class NivelEducativoController extends Controller
 
         flash('
             <h4>Registro de Nivel Educativo</h4>
-            <p>El Nivel Educativo <strong>' . $nivel->nombre . '</strong> se ha registrado correctamente.</p>
+            <p>El nivel educativo <strong>' . $nivel->nombre . '</strong> se ha registrado correctamente.</p>
         ')->success()->important();
 
         return redirect()->route('nivel.index');
@@ -154,8 +154,8 @@ class NivelEducativoController extends Controller
         $nivel->materias()->sync($request->materias);
 
         flash('
-            <h4>Edición de Nivel</h4>
-            <p>Nivel Educativo <strong>' . $nivel->nombre . '</strong> se ha editado correctamente.</p>
+            <h4>Edición de Nivel Educativo</h4>
+            <p>El nivel educativo <strong>' . $nivel->nombre . '</strong> se ha editado correctamente.</p>
         ')->success()->important();
 
         return redirect()->route('nivel.index');
@@ -180,8 +180,8 @@ class NivelEducativoController extends Controller
         $nivel->save();
 
         flash('
-            <h4>Baja de Nivel Academico</h4>
-            <p>El Nivel Educativo <strong>' . $nivel->user_id . '</strong> se ha dado de baja correctamente.</p>
+            <h4>Baja de Nivel Educativo</h4>
+            <p>El nivel educativo <strong>' . $nivel->nombre . '</strong> se ha dado de baja correctamente.</p>
         ')->error()->important();
 
         return redirect()->route('nivel.index');

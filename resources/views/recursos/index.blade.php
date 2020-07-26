@@ -38,7 +38,7 @@
         <thead>
           <tr>
             <th>Nombre</th>
-            <th>Descripcion</th>
+            <th>Descripción</th>
             <th>Opciones</th>
           </tr>
         </thead>
@@ -66,7 +66,7 @@
     @else
       <div class="text-center">
         <i class="fa fa-search fa-5x" aria-hidden="true"></i>
-        <h4>No se encontraron Recursos</h4>
+        <h4>No se encontraron recursos</h4>
       </div>
     @endif
   </div>

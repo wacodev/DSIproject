@@ -30,7 +30,7 @@
 
       <!-- Número -->
       <div class="form-group{{ $errors->has('numero') ? ' has-error' : '' }}">
-        {!! Form::label('numero', 'Año', ['class' => 'col-sm-3 control-label']) !!}
+        {!! Form::label('numero', 'Año *', ['class' => 'col-sm-3 control-label']) !!}
         <div class="col-sm-6">
           {!! Form::number('numero', old('numero'), ['class' => 'form-control', 'placeholder' => 'Año Escolar', 'required']) !!}
             @if ($errors->has('numero'))

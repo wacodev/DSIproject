@@ -68,7 +68,7 @@
     @else
       <div class="text-center">
         <i class="fa fa-search fa-5x" aria-hidden="true"></i>
-        <h4>No se encontraron Años Escolares</h4>
+        <h4>No se encontraron años escolares</h4>
       </div>
     @endif
   </div>

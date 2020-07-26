@@ -30,7 +30,7 @@
 
       <!-- Valor -->
       <div class="form-group{{ $errors->has('valor') ? ' has-error' : '' }}">
-        {!! Form::label('Valor', 'Valor', ['class' => 'col-sm-3 control-label']) !!}
+        {!! Form::label('Valor', 'Valor *', ['class' => 'col-sm-3 control-label']) !!}
         <div class="col-sm-6">
           {!! Form::textArea('valor', old('valor'), ['class' => 'form-control', 'placeholder' => 'Valor', 'required']) !!}
             @if ($errors->has('valor'))

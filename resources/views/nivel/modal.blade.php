@@ -9,7 +9,7 @@
           <h4 class="modal-title">Baja de Nivel Educativo</h4>
         </div>
         <div class="modal-body">
-          <p>¿Desea dar de baja al Nivel Educativo {{ $niveles->codigo }}?</p>
+          <p>¿Desea dar de baja al nivel educativo {{ $niveles->nombre }}?</p>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default btn-flat" data-dismiss="modal">Cerrar</button>

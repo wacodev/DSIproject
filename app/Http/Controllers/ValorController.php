@@ -46,6 +46,10 @@ class ValorController extends Controller
      */
     public function store(Request $request)
     {
+        // Validación general.
+        $this->validate(request(), [
+            'valor'   => 'required|max:400',
+        ]);
 
         $valor = new Valor($request->all());
         $valor->estado = 1;
@@ -98,6 +102,11 @@ class ValorController extends Controller
      */
     public function update(Request $request, $id)
     {
+        // Validación general.
+        $this->validate(request(), [
+            'valor'   => 'required|max:400',
+        ]);
+        
         $valor = Valor::find($id);
 
         if (!$valor || $valor->estado == 0) {
@@ -110,7 +119,7 @@ class ValorController extends Controller
 
         flash('
             <h4>Edición de Valor</h4>
-            <p>El valor <strong>' . $valor->id . '</strong> se ha editado correctamente.</p>
+            <p>El valor <strong>' . $valor->valor . '</strong> se ha editado correctamente.</p>
         ')->success()->important();
 
         return redirect()->route('valores.index');
@@ -136,7 +145,7 @@ class ValorController extends Controller
 
         flash('
             <h4>Baja de Valor</h4>
-            <p>El Valor <strong>' . $valor->valor . '</strong> se ha dado de baja correctamente.</p>
+            <p>El valor <strong>' . $valor->valor . '</strong> se ha dado de baja correctamente.</p>
         ')->error()->important();
 
         return redirect()->route('valores.index');

@@ -2,6 +2,11 @@
 
 @section('titulo', 'CEAA | Pago de Alimentos')
 
+@section('estilos')
+<!-- Select2 -->
+<link rel="stylesheet" href="{{ asset('css/select2.min.css') }}">
+@endsection
+
 @section('encabezado', 'Pago de Alimentos')
 
 @section('subencabezado', 'Gestión')
@@ -51,7 +56,7 @@
             <td>${{ $p->pago }}</td>
             <td>{{ \Carbon\Carbon::parse($p->created_at)->format('d/m/Y') }}</td>
             <td>
-              <a href="" data-target="#modal-delete-{{ $pago->id }}" data-toggle="modal" class="btn btn-danger btn-flat">
+              <a href="" data-target="#modal-delete-{{ $p->id }}" data-toggle="modal" class="btn btn-danger btn-flat">
                 <i class="fa fa-trash" aria-hidden="true"></i>
               </a>
             </td>
@@ -80,4 +85,15 @@
   <!-- /.box-footer-->
 </div>
 <!-- /.box -->
+@endsection
+
+@section('scripts')
+<!-- Select2 -->
+<script src="{{ asset('js/select2.full.min.js') }}"></script>
+<script type="text/javascript">
+  $(function () {
+    //Initialize Select2 Elements
+    $('.select2').select2()
+  })
+</script>
 @endsection

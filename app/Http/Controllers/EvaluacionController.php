@@ -306,7 +306,7 @@ class EvaluacionController extends Controller
         $evaluacion_arriba->posicion += 1;
         $evaluacion_arriba->save();
 
-        return redirect()->route('notas.edit', $gra_mat_id);
+        return back();
     }
 
     /**
@@ -357,7 +357,7 @@ class EvaluacionController extends Controller
         $evaluacion_abajo->posicion -= 1;
         $evaluacion_abajo->save();
 
-        return redirect()->route('notas.edit', $gra_mat_id);
+        return back();
     }
 
     /**

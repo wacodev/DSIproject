@@ -77,13 +77,13 @@
           <!-- User Account: style can be found in dropdown.less -->
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <img src="{{ asset('img/users/user_default.jpg') }}" class="user-image" alt="Imagen de usuario">
+              <img src="{{ asset('img/users/' . Auth::user()->imagen) }}" class="user-image" alt="Imagen de usuario">
               <span class="hidden-xs">{{ $nombre[0] }} {{ $apellido[0] }}</span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
               <li class="user-header">
-                <img src="{{ asset('img/users/user_default.jpg') }}" class="img-circle" alt="Imagen de usuario">
+                <img src="{{ asset('img/users/' . Auth::user()->imagen) }}" class="img-circle" alt="Imagen de usuario">
                 <p>
                   {{ $nombre[0] }} {{ $apellido[0] }}
                   <small>{{ Auth::user()->rol->nombre }}</small>
@@ -117,7 +117,7 @@
       <!-- Sidebar user panel -->
       <div class="user-panel">
         <div class="pull-left image">
-          <img src="{{ asset('img/users/user_default.jpg') }}" class="img-circle" alt="Imagen de usuario">
+          <img src="{{ asset('img/users/' . Auth::user()->imagen) }}" class="img-circle" alt="Imagen de usuario">
         </div>
         <div class="pull-left info">
           <p>{{ $nombre[0] }} {{ $apellido[0] }}</p>
@@ -170,13 +170,18 @@
         </li>
         @if (Auth::user()->direc() || Auth::user()->secre())
         <li>
-          <a href="{{ route('pagos.index') }}">
-            <i class="fa fa-cutlery"></i> <span>Pago de alimentos</span>
+          <a href="{{ route('inventarios.index') }}">
+            <i class="fa fa-cubes"></i> <span>Inventarios</span>
           </a>
         </li>
         <li>
           <a href="{{ route('recursos.index') }}">
             <i class="glyphicon glyphicon-tasks"></i> <span>Recursos</span>
+          </a>
+        </li>
+        <li>
+          <a href="{{ route('pagos.index') }}">
+            <i class="fa fa-cutlery"></i> <span>Pago de alimentos</span>
           </a>
         </li>
         @endif

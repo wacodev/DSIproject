@@ -58,7 +58,7 @@ Route::group(['middleware' => 'auth'], function() {
     /**
      * Solo tienen acceso usuarios con rol de director o secretaria.
      */
-    Route::group(['middleware' => 'direc'], function() {
+    Route::group(['middleware' => 'secre'], function() {
 
         // Docentes.
         Route::resource('docentes', 'DocenteController');
@@ -71,14 +71,20 @@ Route::group(['middleware' => 'auth'], function() {
         Route::post('pagos/{pago}/store', 'PagoController@store2')->name('pagos.store2');
         Route::delete('pagos/{pago}/destroy', 'PagoController@destroy2')->name('pagos.destroy2');
 
+        // Recursos.
         Route::resource('recursos', 'RecursoController');
+
+        // Inventarios.
+        Route::resource('inventarios', 'InventarioController');
+        Route::post('inventarios/{inventario}/store', 'InventarioController@store2')->name('inventarios.store2');
+        Route::delete('inventarios/{recurso}/destroy', 'InventarioController@destroy2')->name('inventarios.destroy2');
     });
 
     // Alumnos.
     Route::resource('alumnos','AlumnoController');
 
     // Récord de notas.
-    Route::get('alumnos/{alumno}/record', 'AlumnoController@record')->name('alumnos.record');
+    Route::get('alumnos/{alumno}/{grado}/record', 'AlumnoController@record')->name('alumnos.record');
 
     // Matriculas.
     Route::resource('matriculas','MatriculaController');
@@ -104,6 +110,9 @@ Route::group(['middleware' => 'auth'], function() {
     // Reportes de notas.
     Route::get('notas/{grado}/reportes', 'NotaController@createReporte')->name('notas.create-reporte');
     Route::post('notas/reportes/descargar', 'NotaController@downloadReporte')->name('notas.reporte');
+
+    // Ranking.
+    Route::get('notas/{grado}/ranking', 'NotaController@ranking')->name('notas.ranking');
 
     // Vista de la Pagina Reportes
     Route::get('reportes', function(){
@@ -138,3 +147,5 @@ Route::get('/', 'HomeController@index');
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::get('/register', 'HomeController@index')->name('register');

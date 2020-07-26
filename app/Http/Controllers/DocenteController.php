@@ -2,11 +2,14 @@
 
 namespace DSIproject\Http\Controllers;
 
+use Carbon\Carbon;
 use DSIproject\Docente;
 use DSIproject\Jornadas;
 use DSIproject\Grados;
+use DSIproject\Http\Requests\DocenteRequest;
 use DSIproject\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection as Collection;
 use Laracasts\Flash\Flash;
 use Barryvdh\DomPDF\Facade as PDF;
 
@@ -45,7 +48,23 @@ class DocenteController extends Controller
      */
     public function create()
     {
-        $users = User::orderBy('apellido', 'asc')->pluck('apellido', 'id');
+        // Solo usuarios que no han sido registrados como docentes antes.
+        $users = User::where('estado', 1)->orderBy('nombre', 'asc')->get();
+
+        if (count($users) > 0) {
+            foreach ($users as $key => $user) {
+                //dd($users, $key, $user);
+                $docente = Docente::where('user_id', $user->id)
+                    ->where('estado', 1)
+                    ->first();
+                if ($docente) {
+                    $users->pull($key);
+                }
+            }
+        }
+
+        $users = $users->pluck('nombre_and_apellido', 'id');
+        
         return view('docente.create')->with('users', $users);
     }
 
@@ -55,16 +74,43 @@ class DocenteController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(DocenteRequest $request)
     {
+        // Validación de la fecha.
+        $fecha = $this->crearFecha($request->fecha_nacimiento);
+
+        if ($fecha == null) {
+            flash('
+                <h4>Error en Ingreso de Datos</h4>
+                <p>El formato de la fecha es incorrecto.</p>
+            ')->error()->important();
+
+            return back();
+        }
+
+        // Almacenamiento de la imagen.
+        if ($request->file('imagen')) {
+            $file = $request->file('imagen');
+
+            $nombre = 'docente_' . time() . '.' . $file->getClientOriginalExtension();
+
+            $path = public_path() . '/img/docentes/';
+
+            $file->move($path, $nombre);
+        } else {
+            $nombre = "docente_default.jpg";
+        }
+
         $docente = new Docente($request->all());
+        $docente->fecha_nacimiento = $fecha;
+        $docente->imagen = $nombre;
         $docente->estado = 1;
 
         $docente->save();
 
         flash('
             <h4>Registro de Docente</h4>
-            <p>El Docente <strong>' . $docente->nombre . '</strong> se ha registrado correctamente.</p>
+            <p>El docente <strong>' . $docente->nombre . ' ' . $docente->apellido . '</strong> se ha registrado correctamente.</p>
         ')->success()->important();
 
         return redirect()->route('docentes.index');
@@ -78,7 +124,13 @@ class DocenteController extends Controller
      */
     public function show($id)
     {
-        //
+        $docente = Docente::find($id);
+
+        if (! $docente || $docente->estado == 0) {
+            abort(404);
+        }
+
+        return view('docente.show')->with('docente', $docente);
     }
 
     /**
@@ -95,7 +147,7 @@ class DocenteController extends Controller
             abort(404);
         }
 
-        $users = User::orderBy('nombre', 'asc')->pluck('nombre', 'id');
+        $users = User::orderBy('nombre', 'asc')->get()->pluck('nombre_and_apellido', 'id');
 
         return view('docente.edit')
             ->with('docente', $docente)
@@ -109,21 +161,53 @@ class DocenteController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(DocenteRequest $request, $id)
     {
          $docente = Docente::find($id);
 
         if (!$docente || $docente->estado == 0) {
             abort(404);
         }
+
+        // Validación de la fecha.
+        $fecha = $this->crearFecha($request->fecha_nacimiento);
+
+        if ($fecha == null) {
+            flash('
+                <h4>Error en Ingreso de Datos</h4>
+                <p>El formato de la fecha es incorrecto.</p>
+            ')->error()->important();
+
+            return back();
+        }
+
+        // Almacenamiento de la imagen.
+        if ($request->file('imagen')) {
+            $file = $request->file('imagen');
+
+            $nombre = 'docente_' . time() . '.' . $file->getClientOriginalExtension();
+
+            $path = public_path() . '/img/docentes/';
+
+            $file->move($path, $nombre);
+
+            // Eliminación de la imagen anterior.
+            if (\File::exists($path . $docente->imagen) && $docente->imagen != 'docente_default.jpg') {
+                \File::delete($path . $docente->imagen);
+            }
+        } else {
+            $nombre = $docente->imagen;
+        }
         
         $docente->fill($request->all());
+        $docente->fecha_nacimiento = $fecha;
+        $docente->imagen = $nombre;
         
         $docente->save();
 
         flash('
             <h4>Edición de Docente</h4>
-            <p>El docente <strong>' . $docente->id . '</strong> se ha editado correctamente.</p>
+            <p>El docente <strong>' . $docente->nombre . ' ' . $docente->apellido . '</strong> se ha editado correctamente.</p>
         ')->success()->important();
 
         return redirect()->route('docentes.index');
@@ -149,7 +233,7 @@ class DocenteController extends Controller
 
         flash('
             <h4>Baja de Docente</h4>
-            <p>El Docente <strong>' . $docente->user_id . '</strong> se ha dado de baja correctamente.</p>
+            <p>El docente <strong>' . $docente->nombre . ' ' . $docente->apellido . '</strong> se ha dado de baja correctamente.</p>
         ')->error()->important();
 
         return redirect()->route('docentes.index');
@@ -171,5 +255,26 @@ class DocenteController extends Controller
         return view('docente.pdf')
             ->with('docentes', $docentes)
             ->with('searchText', $query);
+    }
+
+    /**
+     * Da a la fecha el formato correcto para almacenarla en la base
+     * de datos y verifica que sea una fecha valida.
+     *
+     * @param  string  $valor
+     * @return string
+     */
+    public function crearFecha($valor)
+    {
+        $f = explode('/', $valor); // 0:día, 1:mes, 2:año
+
+        $date = $f[2] . '-' . $f[1] . '-' . $f[0];
+
+        try {
+            $fecha = Carbon::parse($date)->format('Y-m-d');
+            return $fecha;
+        } catch (\Exception $e) {
+            return null;
+        }
     }
 }

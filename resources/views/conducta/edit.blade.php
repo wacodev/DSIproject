@@ -19,7 +19,7 @@
     <div class="nav-tabs-custom">
       <ul class="nav nav-tabs">
         <li class="active"><a href="#">Notas de Conducta</a></li>
-        <li><a href="#">Ranking</a></li>
+        <li><a href="{{ route('notas.ranking', $grado->id) }}">Ranking</a></li>
         <li><a href="{{ route('notas.create-reporte', $grado->id) }}">Reporte de Notas</a></li>
       </ul>
       <div class="tab-content">

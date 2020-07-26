@@ -9,7 +9,7 @@
           <h4 class="modal-title">Baja de Docente</h4>
         </div>
         <div class="modal-body">
-          <p>¿Desea dar de baja al docente {{ $docente->user_id }}?</p>
+          <p>¿Desea dar de baja al docente {{ $docente->user->nombre }} {{ $docente->user->apellido }}?</p>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default btn-flat" data-dismiss="modal">Cerrar</button>

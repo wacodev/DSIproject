@@ -495,13 +495,13 @@ class NotaController extends Controller
 
                 // Para promedio trimestral.
                 if ($request->tipo == 'T') {
-                    $promedio = $this->promediarTrimestre($grado->id, $materia->id, $matricula->alumno->id, $request->trimestre);
+                    $promedio = Materia::promediarTrimestre($grado->id, $materia->id, $matricula->alumno->id, $request->trimestre);
                 
                 // Para promedio anual.
                 } else {
                     $prom = 0;
                     for ($i = 1; $i <= 3; $i++) {
-                        $prom += $this->promediarTrimestre($grado->id, $materia->id, $matricula->alumno->id, $i);
+                        $prom += Materia::promediarTrimestre($grado->id, $materia->id, $matricula->alumno->id, $i);
                     }
                     $promedio = round($prom / 3.0, 2);
                 }
@@ -534,18 +534,18 @@ class NotaController extends Controller
 
                     // Para promedio trimestral.
                     if ($request->tipo == 'T') {
-                        $promedio_c = $this->promediarTrimestreConducta($grado->id, $valor->id, $matricula->alumno->id, $request->trimestre);
+                        $promedio_c = Valor::promediarTrimestreConducta($grado->id, $valor->id, $matricula->alumno->id, $request->trimestre);
 
                     // Para promedio anual.
                     } else {
                         $prom_c = 0;
                         for ($i = 1; $i <= 3; $i++) { 
-                            $prom_c += $this->promediarTrimestreConducta($grado->id, $valor->id, $matricula->alumno->id, $i);
+                            $prom_c += Valor::promediarTrimestreConducta($grado->id, $valor->id, $matricula->alumno->id, $i);
                         }
                         $promedio_c = round($prom_c / 3.0, 2);
                     }
 
-                    $notas_conducta->push($this->traducirNotaConducta($promedio_c));                    
+                    $notas_conducta->push(Valor::traducirNotaConducta($promedio_c));
                 }
 
                 $notas_conducta_all->push($notas_conducta);
@@ -649,158 +649,108 @@ class NotaController extends Controller
             ->with('promedios', $promedio_materia_all)
             ->with('tipo', $request->tipo)
             ->with('estadisticas', $estadisticas)
-            ->with('matriculas_reales', $matriculas_reales);
+            ->with('matriculas_reales', $matriculas_reales)
+            ->with('trimestre', $request->trimestre);
     }
 
     /**
-     * Retorna el promedio de un alumno en una materia y trimestre específico.
+     * Genera el ranking de alumnos sobresalientes del grado indicado.
      *
-     * @param  int  $grado
-     * @param  int  $materia
-     * @param  int  $alumno
-     * @param  int  $trimestre
-     * @return float
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
      */
-    public function promediarTrimestre($grado, $materia, $alumno, $trimestre)
+    public function ranking(Request $request, $grado_id)
     {
-        // Evaluaciones del trimestre.
-        $evaluaciones = Evaluacion::where('tipo', 'EXA')
-            ->where('grado_id', $grado)
-            ->where('materia_id', $materia)
-            ->where('trimestre', $trimestre)
-            ->orWhere('tipo', 'ACT')
-            ->where('grado_id', $grado)
-            ->where('materia_id', $materia)
-            ->where('trimestre', $trimestre)
-            ->get();
+        $grado = Grado::find($grado_id);                              // Grado del cual se obtendrá su ranking.
 
-        // Promedio del trimestre.
-        $promedio = 0;
-
-        // Si hay evaluaciones.
-        if (count($evaluaciones) > 0) {
-            foreach ($evaluaciones as $evaluacion) {
-                $nota = DB::table('alumno_evaluacion')
-                    ->where('alumno_id', $alumno)
-                    ->where('evaluacion_id', $evaluacion->id)
-                    ->first();
-
-                // Si hay registro.
-                if ($nota) {
-                    $promedio += round($nota->nota * $evaluacion->porcentaje, 2);
-                } else {
-                    $promedio += 0;
-                }
-            }
+        if (! $grado || $grado->estado == 0) {                        // Comprobando que el grado exista y esté de alta.
+            abort(404);
         }
 
-        // Evaluación de recuperación.
-        $recuperacion = Evaluacion::where('tipo', 'REC')
-            ->where('grado_id', $grado)
-            ->where('materia_id', $materia)
-            ->where('trimestre', $trimestre)
-            ->first();
+        if (! $request->tipo) {                                       // Si campo tipo se dejó vacío, asignarle cero.
+            $request->tipo = 0;                                       // 0 -> Anual, 1 -> Trimestre 1, 2 -> Trimestre 2,
+        }                                                             // 3 -> Trimestre 3.
 
-        // Si hay evaluación de recuperación.
-        if ($recuperacion) {
-            $nota_recuperacion = DB::table('alumno_evaluacion')
-                ->where('alumno_id', $alumno)
-                ->where('evaluacion_id', $recuperacion->id)
-                ->first();
+        $hoy = Carbon::now()->format('d/m/y');                        // Fecha de creación.
 
-            if ($nota_recuperacion) {
-                $promedio += round($nota_recuperacion->nota, 2);
-            }
-        } else {
-            $promedio += 0;
-        }
+        $matriculas_sin_orden = $grado->matriculas;                   // Alumnos matriculados en el grado.
+        $matriculas = $matriculas_sin_orden                           // Ordenando por el apellido de los alumnos.
+            ->sortBy('apellido')
+            ->values()
+            ->all();
 
-        return $promedio;
-    }
+        $materias_sin_ordenar = $grado->materias;                     // Materias cursadas en el grado.
+        $materias = $materias_sin_ordenar                             // Ordenando materias por su nombre.
+                ->sortBy('nombre')
+                ->values()
+                ->all();
 
-    /**
-     * Retorna el promedio de nota de conducta de un alumno en un trimestre
-     * específico.
-     *
-     * @param  int  $grado
-     * @param  int  $valor
-     * @param  int  $alumno
-     * @param  int  $trimestre
-     * @return int
-     */
-    public function promediarTrimestreConducta($grado, $valor, $alumno, $trimestre)
-    {
-        $nota_c = DB::table('alumno_valor')
-            ->where('alumno_id', $alumno)
-            ->where('valor_id', $valor)
-            ->where('grado_id', $grado)
-            ->where('trimestre', $trimestre)
-            ->first();
+        $promedios = [];                                              // Promedios globales de cada alumno.
 
-        if ($nota_c) {
-            switch ($nota_c->nota) {
-                case 'E':
-                    $nota = 10;
-                    break;
-
-                case 'MB':
-                    $nota = 8;
-                    break;
-
-                case 'B':
-                    $nota = 6;
-                    break;
-                
-                case 'R':
-                    $nota = 4;
-                    break;
-
-                case 'M':
-                    $nota = 2;
-                    break;
-
-                default:
-                    $nota = 0;
-                    break;
-            }
-        } else {
-            $nota = 0;
-        }
-
-        return $nota;
-    }
-
-    /**
-     * Retorna la nota promedio de conducta de un alumno como cadena de caracteres
-     * según corresponda en la escala: E, MB, B, R, M.
-     *
-     * @param  float  $nota
-     * @return string
-     */
-    public function traducirNotaConducta($nota)
-    {
-        switch ($nota) {
-            case $nota > 8:
-                $n = 'E';
-                break;
-
-            case $nota > 6:
-                $n = 'MB';
-                break;
-
-            case $nota > 4:
-                $n = 'B';
-                break;
+        if ($request->tipo == 0) {                                    // Obteniendo promedios globales anuales de los alumnos.
             
-            case $nota > 2:
-                $n = 'R';
-                break;
+            foreach ($matriculas as $matricula) {
 
-            case $nota <= 2:
-                $n = 'M';
-                break;
+                $promedios_materias = 0;                              // Acumulador con promedios de cada materia.
+                
+                foreach ($materias as $materia) {
+                    
+                    $suma = 0;                                        // Acumulador de los promedios obtenidos en cada trimestre.
+
+                    for ($i = 1; $i <= 3; $i++) {                     // Obteniendo promedios trimestrales.
+
+                        $suma += Materia::promediarTrimestre(
+                            $grado->id,
+                            $materia->id,
+                            $matricula->alumno->id,
+                            $i
+                        );
+                    }
+
+                    $promedio = round($suma / 3.0, 2);                // Calculando promedio anual de la materia.
+                    $promedios_materias += $promedio;
+                }
+
+                $promedio_alumno = round(                             // Calculando promedio global del alumno.
+                    $promedios_materias / count($materias), 2
+                );
+                array_push($promedios, $promedio_alumno);
+            }
+
+        } else {                                                      // Obteniendo promedios globales trimestrales de los alumnos.
+
+            foreach ($matriculas as $matricula) {
+
+                $promedios_materias = 0;                              // Acumulador con promedios de cada materia.
+                
+                foreach ($materias as $materia) {
+
+                    $promedio = Materia::promediarTrimestre(          // Promedio trimestral de la materia.
+                        $grado->id,
+                        $materia->id,
+                        $matricula->alumno->id,
+                        $request->tipo
+                    );
+
+                    $promedios_materias += $promedio;
+                }
+
+                $promedio_alumno = round(                             // Calculando promedio global del alumno.
+                    $promedios_materias / count($materias), 2
+                );
+                array_push($promedios, $promedio_alumno);
+            }
         }
 
-        return $n;
+        arsort($promedios);                                           // Ordenando array de promedios de mayor a menor por su valor y
+                                                                      // conservando las llaves asignadas a cada elemento inicialmente.
+        return view('notas.ranking')
+            ->with('grado', $grado)
+            ->with('hoy', $hoy)
+            ->with('matriculas', $matriculas)
+            ->with('promedios', $promedios)
+            ->with('tipo', $request->tipo)
+            ->with('posicion', 1);                                    // Posición que ocupa cada alumno en el ranking.
     }
 }

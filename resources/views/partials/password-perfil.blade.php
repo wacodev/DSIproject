@@ -6,7 +6,7 @@
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">x</span>
           </button>
-          <h4 class="modal-title">Cambiar imagen de perfil</h4>
+          <h4 class="modal-title">Cambiar contraseña</h4>
         </div>
         <div class="modal-body">
           <!-- Password -->

@@ -4,6 +4,7 @@ namespace DSIproject;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use DSIproject\Notifications\MyResetPassword;
 
 class User extends Authenticatable
 {
@@ -95,5 +96,26 @@ class User extends Authenticatable
      */
     public function docen() {
         return $this->rol->codigo === 'docen';
+    }
+
+    /**
+     * Obtiene el nombre y apellido del usuario.
+     *
+     * @return string
+     */
+    public function getNombreAndApellidoAttribute()
+    {
+        return $this->nombre . ' ' . $this->apellido;
+    }
+
+    /**
+     * Envía correo electrónico para restablecer la contraseña.
+     * 
+     * @param  string $token
+     * @return void
+     */
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new MyResetPassword($token));
     }
 }

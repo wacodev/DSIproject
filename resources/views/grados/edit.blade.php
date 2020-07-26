@@ -2,6 +2,11 @@
 
 @section('titulo', 'CEAA | Editar Grado')
 
+@section('estilos')
+<!-- Select2 -->
+<link rel="stylesheet" href="{{ asset('css/select2.min.css') }}">
+@endsection
+
 @section('encabezado', 'Editar Grado')
 
 @section('subencabezado', 'Editar')
@@ -11,7 +16,7 @@
   <i class="fa fa-users"></i> Gestión Académica
 </li>
 <li>
-  <a href="{{ route('docentes.index') }}">Grado</a>
+  <a href="{{ route('grados.index') }}">Grado</a>
 </li>
 <li class="active">
   Editar Grado
@@ -30,9 +35,9 @@
 
       <!-- Nivel Academico -->
       <div class="form-group{{ $errors->has('nivel_id') ? ' has-error' : '' }}">
-        {!! Form::label('nivel_id>', 'Nivel Académico', ['class' => 'col-sm-3 control-label']) !!}
+        {!! Form::label('nivel_id>', 'Nivel educativo *', ['class' => 'col-sm-3 control-label']) !!}
         <div class="col-sm-6">
-          {!! Form::select('nivel_id', $niveles, $grado->nivel_id,  ['class' => 'form-control', 'disabled', 'placeholder' => '-- Seleccione un nivel academico --', 'required']) !!}
+          {!! Form::select('nivel_id', $niveles, $grado->nivel_id,  ['class' => 'form-control select2', 'disabled', 'placeholder' => '-- Seleccione un nivel educativo --', 'style' => 'width: 100%', 'required']) !!}
           @if ($errors->has('nivel_id'))
           <span class="help-block">{{ $errors->first('nivel_id') }}</span>
           @endif
@@ -41,9 +46,9 @@
 
      <!-- Anio -->
       <div class="form-group{{ $errors->has('anio_id') ? ' has-error' : '' }}">
-        {!! Form::label('numero>', 'Año Académico', ['class' => 'col-sm-3 control-label']) !!}
+        {!! Form::label('numero>', 'Año escolar *', ['class' => 'col-sm-3 control-label']) !!}
         <div class="col-sm-6">
-          {!! Form::select('anio_id', $anios, $grado->anio_id, ['class' => 'form-control', 'disabled', 'placeholder' => '-- Seleccione un Año --', 'required']) !!}
+          {!! Form::select('anio_id', $anios, $grado->anio_id, ['class' => 'form-control select2', 'disabled', 'placeholder' => '-- Seleccione un año --', 'style' => 'width: 100%', 'required']) !!}
           @if ($errors->has('anio_id'))
           <span class="help-block">{{ $errors->first('anio_id') }}</span>
           @endif
@@ -54,7 +59,7 @@
       <div class="form-group{{ $errors->has('codigo') ? ' has-error' : '' }}">
         {!! Form::label('Codigo', 'Código', ['class' => 'col-sm-3 control-label']) !!}
         <div class="col-sm-6">
-          {!! Form::text('codigo', $grado->codigo, ['class' => 'form-control', 'placeholder' => 'Codigo del Grado', 'required', 'disabled']) !!}
+          {!! Form::text('codigo', $grado->codigo, ['class' => 'form-control', 'placeholder' => 'Código del grado', 'required', 'disabled']) !!}
             @if ($errors->has('codigo'))
             <span class="help-block">{{ $errors->first('codigo') }}</span>
             @endif
@@ -63,9 +68,9 @@
 
       <!-- Sección -->
       <div class="form-group{{ $errors->has('seccion') ? ' has-error' : '' }}">
-        {!! Form::label('Seccion', 'Seccion', ['class' => 'col-sm-3 control-label']) !!}
+        {!! Form::label('Seccion', 'Sección', ['class' => 'col-sm-3 control-label']) !!}
         <div class="col-sm-6">
-          {!! Form::text('seccion', $grado->seccion, ['class' => 'form-control', 'placeholder' => 'Seccion ', 'required', 'disabled']) !!}
+          {!! Form::text('seccion', $grado->seccion, ['class' => 'form-control', 'placeholder' => 'Sección ', 'required', 'disabled']) !!}
             @if ($errors->has('seccion'))
             <span class="help-block">{{ $errors->first('seccion') }}</span>
             @endif
@@ -74,9 +79,9 @@
 
       <!-- Docente orientador -->
       <div class="form-group{{ $errors->has('docente_id') ? ' has-error' : '' }}">
-        {!! Form::label('docente_id', 'Docente Orientador', ['class' => 'col-sm-3 control-label']) !!}
+        {!! Form::label('docente_id', 'Docente orientador', ['class' => 'col-sm-3 control-label']) !!}
         <div class="col-sm-6">
-          {!! Form::select('docente_id', $docentes, $grado->docente_id, ['class' => 'form-control', 'placeholder' => '-- Seleccione un docente orientador --', 'required']) !!}
+          {!! Form::select('docente_id', $docentes, $grado->docente_id, ['class' => 'form-control select2', 'placeholder' => '-- Seleccione un docente orientador --', 'style' => 'width: 100%', 'required']) !!}
           @if ($errors->has('docente_id'))
           <span class="help-block">{{ $errors->first('docente_id') }}</span>
           @endif
@@ -102,7 +107,7 @@
                     {{ $materia->codigo }} - {{ $materia->nombre }}
                   </td>
                   <td>
-                    {!! Form::select('docentes[]', $docentes, $materia->pivot->docente_id, ['class' => 'form-control', 'placeholder' => '-- Seleccione un docente --']) !!}
+                    {!! Form::select('docentes[]', $docentes, $materia->pivot->docente_id, ['class' => 'form-control select2', 'placeholder' => '-- Seleccione un docente --', 'style' => 'width: 100%']) !!}
                   </td>
                 </tr>
                 @endforeach
@@ -126,4 +131,15 @@
   <!-- /.box-footer-->
 </div>
 <!-- /.box -->
+@endsection
+
+@section('scripts')
+<!-- Select2 -->
+<script src="{{ asset('js/select2.full.min.js') }}"></script>
+<script type="text/javascript">
+  $(function () {
+    //Initialize Select2 Elements
+    $('.select2').select2()
+  })
+</script>
 @endsection

@@ -13,7 +13,7 @@
 
 @section('breadcrumb')
 <li>
-  <i class="fa fa-child"></i>
+  <i class="fa fa-clipboard"></i>
   <a href="{{ route('matriculas.index') }}">Matrículas</a>
 </li>
 <li class="active">

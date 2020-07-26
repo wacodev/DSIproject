@@ -37,11 +37,11 @@
       <table class="table table-hover table-striped table-bordered table-quitar-margen">
         <thead>
           <tr>
-            <th>Codigo</th>
-            <th>Nivel</th>
+            <th>Código</th>
+            <th>Nivel Educativo</th>
             <th>Año</th>
             <th>Docente</th>
-            <th>Seccion</th>
+            <th>Sección</th>
             <th>Opciones</th>
           </tr>
         </thead>
@@ -73,7 +73,7 @@
     @else
       <div class="text-center">
         <i class="fa fa-search fa-5x" aria-hidden="true"></i>
-        <h4>No se encontraron docentes</h4>
+        <h4>No se encontraron grados</h4>
       </div>
     @endif
   </div>

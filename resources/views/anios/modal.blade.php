@@ -9,7 +9,7 @@
           <h4 class="modal-title">Baja de Año Escolar</h4>
         </div>
         <div class="modal-body">
-          <p>¿Desea dar de baja el año escolar{{ $anio->numero }}?</p>
+          <p>¿Desea dar de baja el año escolar {{ $anio->numero }}?</p>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default btn-flat" data-dismiss="modal">Cerrar</button>

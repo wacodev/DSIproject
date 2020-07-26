@@ -2,6 +2,11 @@
 
 @section('titulo', 'CEAA | Crear Grado')
 
+@section('estilos')
+<!-- Select2 -->
+<link rel="stylesheet" href="{{ asset('css/select2.min.css') }}">
+@endsection
+
 @section('encabezado', 'Crear Grado')
 
 @section('subencabezado', 'Registro')
@@ -9,7 +14,7 @@
 @section('breadcrumb')
 <li>
   <i class="fa fa-graduation-cap"></i>
-  <a href="{{ route('docentes.index') }}">Grado</a>
+  <a href="{{ route('grados.index') }}">Grado</a>
 </li>
 <li class="active">
   Registrar Grado
@@ -28,9 +33,9 @@
 
       <!-- Nivel Académico -->
       <div class="form-group{{ $errors->has('nivel_id') ? ' has-error' : '' }}">
-        {!! Form::label('nivel_id>', 'Nivel Académico', ['class' => 'col-sm-3 control-label']) !!}
+        {!! Form::label('nivel_id>', 'Nivel educativo *', ['class' => 'col-sm-3 control-label']) !!}
         <div class="col-sm-6">
-          {!! Form::select('nivel_id', $niveles, old('nivel_id'), ['class' => 'form-control', 'placeholder' => '-- Seleccione un nivel académico --', 'required']) !!}
+          {!! Form::select('nivel_id', $niveles, old('nivel_id'), ['class' => 'form-control select2', 'placeholder' => '-- Seleccione un nivel educativo --', 'style' => 'width: 100%', 'required']) !!}
           @if ($errors->has('nivel_id'))
           <span class="help-block">{{ $errors->first('nivel_id') }}</span>
           @endif
@@ -39,9 +44,9 @@
 
      <!-- Anio -->
       <div class="form-group{{ $errors->has('anio_id') ? ' has-error' : '' }}">
-        {!! Form::label('numero>', 'Año Académico', ['class' => 'col-sm-3 control-label']) !!}
+        {!! Form::label('numero>', 'Año escolar *', ['class' => 'col-sm-3 control-label']) !!}
         <div class="col-sm-6">
-          {!! Form::select('anio_id', $anios, old('anio_id'), ['class' => 'form-control', 'placeholder' => '-- Seleccione un Año --', 'required']) !!}
+          {!! Form::select('anio_id', $anios, old('anio_id'), ['class' => 'form-control select2', 'placeholder' => '-- Seleccione un año --', 'style' => 'width: 100%', 'required']) !!}
           @if ($errors->has('anio_id'))
           <span class="help-block">{{ $errors->first('anio_id') }}</span>
           @endif
@@ -61,9 +66,9 @@
 
       <!-- Docente orientador -->
       <div class="form-group{{ $errors->has('docente_id') ? ' has-error' : '' }}">
-        {!! Form::label('docente_id', 'Docente Orientador', ['class' => 'col-sm-3 control-label']) !!}
+        {!! Form::label('docente_id', 'Docente orientador *', ['class' => 'col-sm-3 control-label']) !!}
         <div class="col-sm-6">
-          {!! Form::select('docente_id', $docentes, old('docente_id'), ['class' => 'form-control', 'placeholder' => '-- Seleccione un docente orientador --', 'required']) !!}
+          {!! Form::select('docente_id', $docentes, old('docente_id'), ['class' => 'form-control select2', 'placeholder' => '-- Seleccione un docente orientador --', 'style' => 'width: 100%', 'required']) !!}
           @if ($errors->has('docente_id'))
           <span class="help-block">{{ $errors->first('docente_id') }}</span>
           @endif
@@ -74,7 +79,7 @@
     <div class="box-footer">
       <div class="col-sm-9">
         <div class="pull-right">
-          <a href="{{ route('materias.index') }}" class="btn btn-default btn-flat">Cancelar</a>
+          <a href="{{ route('grados.index') }}" class="btn btn-default btn-flat">Cancelar</a>
           {!! Form::submit('Guardar', ['class' => 'btn btn-primary btn-flat']) !!}
         </div>
       </div>
@@ -83,4 +88,15 @@
   <!-- /.box-footer-->
 </div>
 <!-- /.box -->
+@endsection
+
+@section('scripts')
+<!-- Select2 -->
+<script src="{{ asset('js/select2.full.min.js') }}"></script>
+<script type="text/javascript">
+  $(function () {
+    //Initialize Select2 Elements
+    $('.select2').select2()
+  })
+</script>
 @endsection

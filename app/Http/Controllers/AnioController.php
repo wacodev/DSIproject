@@ -82,7 +82,7 @@ class AnioController extends Controller
 
         flash('
             <h4>Registro de Año Escolar</h4>
-            <p>El año Escolar <strong>' . $anio->numero . '</strong> se ha registrado correctamente.</p>
+            <p>El año escolar <strong>' . $anio->numero . '</strong> se ha registrado correctamente.</p>
         ')->success()->important();
 
         return redirect()->route('anios.index');
@@ -167,7 +167,7 @@ class AnioController extends Controller
 
         flash('
             <h4>Edición de Año Escolar</h4>
-            <p>El Año Escolar <strong>' . $anio->numero . '</strong> se ha editado correctamente.</p>
+            <p>El año escolar <strong>' . $anio->numero . '</strong> se ha editado correctamente.</p>
         ')->success()->important();
 
         return redirect()->route('anios.index');

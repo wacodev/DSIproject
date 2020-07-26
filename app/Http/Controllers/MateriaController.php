@@ -113,7 +113,7 @@ class MateriaController extends Controller
 
         flash('
             <h4>Edición de Materia</h4>
-            <p>La materia <strong>' . $materia->id . '</strong> se ha editado correctamente.</p>
+            <p>La materia <strong>' . $materia->nombre . '</strong> se ha editado correctamente.</p>
         ')->success()->important();
 
         return redirect()->route('materias.index');

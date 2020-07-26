@@ -48,10 +48,12 @@
           @if($docente->estado!=0)
           <tr>
             <td>{{ $docente->nip }}</td>
-            <td>{{ $docente->user->nombre }}
-                 {{$docente->user->apellido}}                           </td>
+            <td>{{ $docente->user->nombre }} {{$docente->user->apellido}}</td>
             <td>{{ $docente->especialidad }}</td>
             <td>
+              <a href="{{ route('docentes.show', $docente->id) }}" class="btn btn-default btn-flat">
+                <i class="fa fa-eye" aria-hidden="true"></i>
+              </a>
               <a href="{{ route('docentes.edit', $docente->id) }}" class="btn btn-default btn-flat">
                 <i class="fa fa-wrench" aria-hidden="true"></i>
               </a>

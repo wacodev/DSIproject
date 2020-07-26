@@ -29,7 +29,7 @@
     <div class="box-body">
       <!-- Código -->
       <div class="form-group{{ $errors->has('codigo') ? ' has-error' : '' }}">
-        {!! Form::label('codigo', 'Código', ['class' => 'col-sm-3 control-label']) !!}
+        {!! Form::label('codigo', 'Código *', ['class' => 'col-sm-3 control-label']) !!}
         <div class="col-sm-6">
           {!! Form::text('codigo', old('codigo'), ['class' => 'form-control', 'placeholder' => 'Código del rol de usuario', 'required']) !!}
             @if ($errors->has('codigo'))
@@ -39,7 +39,7 @@
       </div>
       <!-- Nombre -->
       <div class="form-group{{ $errors->has('nombre') ? ' has-error' : '' }}">
-        {!! Form::label('nombre', 'Nombre', ['class' => 'col-sm-3 control-label']) !!}
+        {!! Form::label('nombre', 'Nombre *', ['class' => 'col-sm-3 control-label']) !!}
         <div class="col-sm-6">
           {!! Form::text('nombre', old('nombre'), ['class' => 'form-control', 'placeholder' => 'Nombre del rol de usuario', 'required']) !!}
             @if ($errors->has('nombre'))

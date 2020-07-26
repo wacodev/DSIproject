@@ -6,10 +6,10 @@
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">x</span>
           </button>
-          <h4 class="modal-title">Baja de Pago de Alimentos</h4>
+          <h4 class="modal-title">Eliminación de Pago de Alimentos</h4>
         </div>
         <div class="modal-body">
-          <p>¿Desea dar de baja al pago de alimentos del alumno {{ $p->nombre }} {{ $p->apellido }}?</p>
+          <p>¿Desea eliminar el pago de alimentos de {{ $p->nombre }} {{ $p->apellido }}?</p>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default btn-flat" data-dismiss="modal">Cerrar</button>

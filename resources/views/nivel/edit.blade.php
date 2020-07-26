@@ -34,9 +34,9 @@
     <div class="box-body">
       <!-- Código -->
       <div class="form-group{{ $errors->has('codigo') ? ' has-error' : '' }}">
-        {!! Form::label('Codigo', 'Codigo', ['class' => 'col-sm-3 control-label']) !!}
+        {!! Form::label('Codigo', 'Código *', ['class' => 'col-sm-3 control-label']) !!}
         <div class="col-sm-6">
-          {!! Form::text('codigo', $nivel->codigo, ['class' => 'form-control', 'placeholder' => 'Codigo', 'required']) !!}
+          {!! Form::text('codigo', $nivel->codigo, ['class' => 'form-control', 'placeholder' => 'Código del nivel educativo', 'required']) !!}
             @if ($errors->has('codigo'))
             <span class="help-block">{{ $errors->first('codigo') }}</span>
             @endif
@@ -44,9 +44,9 @@
       </div>
       <!-- Nombre -->
       <div class="form-group{{ $errors->has('nip') ? ' has-error' : '' }}">
-        {!! Form::label('nombre', 'Nombre', ['class' => 'col-sm-3 control-label']) !!}
+        {!! Form::label('nombre', 'Nombre *', ['class' => 'col-sm-3 control-label']) !!}
         <div class="col-sm-6">
-          {!! Form::text('nombre', $nivel->nombre, ['class' => 'form-control', 'placeholder' => 'Nombre de nivel', 'required']) !!}
+          {!! Form::text('nombre', $nivel->nombre, ['class' => 'form-control', 'placeholder' => 'Nombre del nivel educativo', 'required']) !!}
             @if ($errors->has('nombre'))
             <span class="help-block">{{ $errors->first('nombre') }}</span>
             @endif

@@ -2,6 +2,11 @@
 
 @section('titulo', 'CEAA | Alumnos')
 
+@section('estilos')
+<!-- Select2 -->
+<link rel="stylesheet" href="{{ asset('css/select2.min.css') }}">
+@endsection
+
 @section('encabezado', 'Alumnos')
 
 @section('subencabezado', 'Edición')
@@ -79,7 +84,7 @@
       <div class="form-group{{ $errors->has('departamento_id') ? ' has-error' : '' }}">
         {!! Form::label('departamento_id', 'Departamento *', ['class' => 'col-sm-3 control-label']) !!}
         <div class="col-sm-6">
-          {!! Form::select('departamento_id', $departamentos, $alumno->municipio->departamento_id, ['class' => 'form-control', 'placeholder' => '-- Seleccione un departamento --', 'onchange' => 'cargarMunicipios(this.value);', 'required']) !!}
+          {!! Form::select('departamento_id', $departamentos, $alumno->municipio->departamento_id, ['class' => 'form-control select2', 'placeholder' => '-- Seleccione un departamento --', 'onchange' => 'cargarMunicipios(this.value);', 'style' => 'width: 100%', 'required']) !!}
           @if ($errors->has('departamento_id'))
           <span class="help-block">{{ $errors->first('departamento_id') }}</span>
           @endif
@@ -89,7 +94,7 @@
       <div class="form-group{{ $errors->has('municipio_id') ? ' has-error' : '' }}">
         {!! Form::label('municipio_id', 'Municipio *', ['class' => 'col-sm-3 control-label']) !!}
         <div class="col-sm-6">
-          <select id='municipio_id' name='municipio_id' class='form-control' required>
+          <select id='municipio_id' name='municipio_id' class='form-control select2' style="width: 100%" required>
             @foreach ($municipios as $municipio)
             @if ($municipio->id == $alumno->municipio_id)
             <option selected="selected" value='{{ $alumno->municipio_id }}'>{{ $alumno->municipio->nombre }}</option>
@@ -191,6 +196,14 @@ function cargarMunicipios(valor)
 <script type="text/javascript">
   $(function () {
     $('[data-mask]').inputmask()
+  })
+</script>
+<!-- Select2 -->
+<script src="{{ asset('js/select2.full.min.js') }}"></script>
+<script type="text/javascript">
+  $(function () {
+    //Initialize Select2 Elements
+    $('.select2').select2()
   })
 </script>
 @endsection

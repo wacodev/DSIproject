@@ -11,7 +11,7 @@
   <i class="fa fa-users"></i> Configuración
 </li>
 <li>
-  <a href="{{ route('docentes.index') }}">Materia</a>
+  <a href="{{ route('materias.index') }}">Materia</a>
 </li>
 <li class="active">
   Registrar Materia
@@ -29,9 +29,9 @@
     <div class="box-body">
       <!-- Código -->
       <div class="form-group{{ $errors->has('user_id') ? ' has-error' : '' }}">
-        {!! Form::label('Codigo', 'Codigo', ['class' => 'col-sm-3 control-label']) !!}
+        {!! Form::label('Codigo', 'Código *', ['class' => 'col-sm-3 control-label']) !!}
         <div class="col-sm-6">
-          {!! Form::text('codigo', old('codigo'), ['class' => 'form-control', 'placeholder' => 'Codigo de Materia', 'required']) !!}
+          {!! Form::text('codigo', old('codigo'), ['class' => 'form-control', 'placeholder' => 'Código de la materia', 'required']) !!}
             @if ($errors->has('codigo'))
             <span class="help-block">{{ $errors->first('codigo') }}</span>
             @endif
@@ -39,7 +39,7 @@
       </div>
       <!-- Nombre -->
       <div class="form-group{{ $errors->has('nip') ? ' has-error' : '' }}">
-        {!! Form::label('Nombre', 'Nombre', ['class' => 'col-sm-3 control-label']) !!}
+        {!! Form::label('Nombre', 'Nombre *', ['class' => 'col-sm-3 control-label']) !!}
         <div class="col-sm-6">
           {!! Form::text('nombre', old('nombre'), ['class' => 'form-control', 'placeholder' => 'Nombre de la materia', 'required']) !!}
             @if ($errors->has('nombre'))

@@ -19,7 +19,7 @@
     <div class="nav-tabs-custom">
       <ul class="nav nav-tabs">
         <li><a href="{{ route('conducta.edit', $grado->id) }}">Notas de Conducta</a></li>
-        <li><a href="#">Ranking</a></li>
+        <li><a href="{{ route('notas.ranking', $grado->id) }}">Ranking</a></li>
         <li class="active"><a href="#">Reporte de Notas</a></li>
       </ul>
       <div class="tab-content">
@@ -63,7 +63,11 @@
         Registro de Evaluación del Rendimiento Escolar
         <small class="pull-right">Fecha: {{ $hoy }}</small>
         <img src="{{ asset('img/sistema/logo_ceaa.png') }}" class="pull-left" style="width: 77px; height:101px; margin-right: 15px" />
-        <small>{{ $grado->nivel->nombre }}, sección "{{ $grado->seccion }}"</small>
+        @if ($tipo == 'A')
+        <small>Cuadro Final de Evaluación de {{ $grado->nivel->nombre }}@if ($grado->seccion), Sección "{{ $grado->seccion }}" @endif</small>
+        @else
+        <small>Cuadro de Evaluación del Trimestre {{ $trimestre }} de {{ $grado->nivel->nombre }}@if ($grado->seccion), Sección "{{ $grado->seccion }}" @endif</small>
+        @endif
         <small>Centro Escolar Anastasio Aquino, Código 12053</small>
         <small>Cantón San Antonio Abajo, Santiago Nonualco</small>
         <small>Departamento La Paz, Distrito 08-07</small>

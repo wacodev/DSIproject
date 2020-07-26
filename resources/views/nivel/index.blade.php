@@ -37,9 +37,8 @@
       <table class="table table-hover table-striped table-bordered table-quitar-margen">
         <thead>
           <tr>
-            <th>codigo</th>
-            <th>nombre</th>
-            <th>orientador_materia</th>
+            <th>Código</th>
+            <th>Nombre</th>
           </tr>
         </thead>
         <tbody>
@@ -47,7 +46,6 @@
           <tr>
             <td>{{ $niveles->codigo }}</td>
             <td>{{ $niveles->nombre }}</td>
-            <td>{{ $niveles->orientador_materia }}</td>
             <td>
               <a href="{{ route('nivel.show', $niveles->id) }}" class="btn btn-default btn-flat">
                 <i class="fa fa-eye" aria-hidden="true"></i>
@@ -70,7 +68,7 @@
     @else
       <div class="text-center">
         <i class="fa fa-search fa-5x" aria-hidden="true"></i>
-        <h4>No se encontraron Nivel Educativo</h4>
+        <h4>No se encontraron niveles educativos</h4>
       </div>
     @endif
   </div>
