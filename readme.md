@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/wacodev/DSIproject/master/public/img/sistema/logo_ceaa.png" style="max-width: 12%;">
+  <img src="https://raw.githubusercontent.com/wacodev/DSIproject/master/logo_ceaa_114x153.png">
 </p>
 
 # DSIproject
