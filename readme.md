@@ -1,60 +1,107 @@
-<p align="center"><img src="https://laravel.com/assets/img/components/logo-laravel.svg"></p>
-
 <p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/d/total.svg" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/v/stable.svg" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
+  <img src="https://raw.githubusercontent.com/wacodev/DSIproject/master/public/img/sistema/logo_ceaa.png" style="max-width: 12%;">
 </p>
 
-## About Laravel
+# DSIproject
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as:
+Sistema informático para la gestión de procesos académicos y administrativos del Centro Escolar Anastasio Aquino.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Instalación
 
-Laravel is accessible, yet powerful, providing tools needed for large, robust applications.
+1. Clonar el respositorio.
 
-## Learning Laravel
+```
+git clone https://github.com/wacodev/DSIproject.git
+```
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of any modern web application framework, making it a breeze to get started learning the framework.
+2. Abrir una terminal y ubicarse en la carpeta raíz del proyecto.
 
-If you're not in the mood to read, [Laracasts](https://laracasts.com) contains over 1100 video tutorials on a range of topics including Laravel, modern PHP, unit testing, JavaScript, and more. Boost the skill level of yourself and your entire team by digging into our comprehensive video library.
+3. Instalar las dependencias del proyecto.
 
-## Laravel Sponsors
+```
+composer install
+```
 
-We would like to extend our thanks to the following sponsors for helping fund on-going Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell):
+4. Copiar el archivo `.env.example` y nombrarlo como `.env`.
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[British Software Development](https://www.britishsoftware.co)**
-- [Fragrantica](https://www.fragrantica.com)
-- [SOFTonSOFA](https://softonsofa.com/)
-- [User10](https://user10.com)
-- [Soumettre.fr](https://soumettre.fr/)
-- [CodeBrisk](https://codebrisk.com)
-- [1Forge](https://1forge.com)
-- [TECPRESSO](https://tecpresso.co.jp/)
-- [Runtime Converter](http://runtimeconverter.com/)
-- [WebL'Agence](https://weblagence.com/)
-- [Invoice Ninja](https://www.invoiceninja.com)
+```
+cp .env.example .env
+```
 
-## Contributing
+5. Crear una nueva API key.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+```
+php artisan key:generate
+```
 
-## Security Vulnerabilities
+6. Editar el archivo `.env` con las credenciales de su base de datos. A continuación se presenta un ejemplo.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+```
+DB_DATABASE=dsiproject
+DB_USERNAME=root
+DB_PASSWORD=
+```
 
-## License
+> En el ejemplo anterior se usaron las credenciales de usuario por defecto de XAMPP y el nombre de la base de datos es `dsiproject`.
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+7. Realizar las migraciones de la base de datos.
+
+```
+php artisan migrate
+```
+
+8. En el gestor de la base de datos correr el siguiente script para crear los roles de usuario.
+
+```sql
+INSERT INTO `roles` (`id`, `codigo`, `nombre`, `estado`) VALUES
+(1, 'direc', 'Director', 1),
+(2, 'secre', 'Secretaria', 1),
+(3, 'docen', 'Docente', 1);
+```
+
+9. Activar Tinker.
+
+```
+php artisan tinker
+```
+
+10. Crear un usuario de tipo `Director` para ingresar al sistema. A continuación se presenta un ejemplo.
+
+```php
+$user = new DSIproject\User;
+$user->rol_id = 1;
+$user->nombre = "William";
+$user->apellido = "Coto";
+$user->email = "wacodev@outlook.com";
+$user->password = bcrypt("123456");
+$user->dui = "11111111-1";
+$user->estado = 1;
+$user->save();
+```
+
+> El `rol_id` debe ser 1 porque según el paso 8 éste es el id del rol de tipo `Director` y es quien tiene los privilegios de un administrador del sistema.
+
+10. Correr el proyecto.
+
+```
+php artisan serve
+```
+
+11. Ingresar desde un navegador web a `http://localhost:8000` o url que indique la instrucción anterior.
+
+## Vista preliminar
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/wacodev/DSIproject/master/preview.png">
+</p>
+
+## Demo
+
+Ingresar a https://demodsiproject.000webhostapp.com/ para usar la demo del sistema.
+
+Las credenciales para ingresar son:
+
+* Correo electrónico: director@mail.com
+* Contraseña: 123456
+
+> En caso que la demo no esté en funcionamiento o no se permita el acceso con las credenciales provistas, escribir al correo wacodev@outlook.com e informar del problema que se presenta.
